@@ -9,10 +9,15 @@ from datetime import datetime
 app = Flask(__name__)
 
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
+import os
+import json
+
+key_json = os.environ.get("SERVICE_ACCOUNT_JSON")
+creds_dict = json.loads(key_json)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 
-sheet = client.open("Tên Google Sheet của bạn").worksheet("Shop")  # Thay bằng tên Google Sheet thật của bạn
+sheet = client.open_by_key("1ZaouruB_Utz--TpXtLFv91RAfxxDbFjfoC1r8DoFxmI").worksheet("Shop")
 
 @app.route("/")
 def crawl_sales():
