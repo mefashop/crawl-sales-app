@@ -53,4 +53,7 @@ def crawl_sales():
         return f"Lỗi toàn cục: {e}"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
